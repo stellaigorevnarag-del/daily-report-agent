@@ -34,16 +34,11 @@ async function fetchTodayMessages(): Promise<Message[]> {
     order: 'received_at.asc', // ← было created_at.asc
   });
 
-  const response = await fetch(
-    `${supabaseUrl}/rest/v1/messages?${params.toString()}`,
-    {
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  );
+const response = await client.chat.completions.create({
+    model: 'gpt-5.4-mini',
+    messages: [{ role: 'user', content: buildPrompt(dialogs) }],
+    max_completion_tokens: 2000, // ← было max_tokens
+  });
 
   if (!response.ok) {
     const error = await response.text();
