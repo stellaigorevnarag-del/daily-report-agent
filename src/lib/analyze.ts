@@ -7,7 +7,7 @@ interface Message {
   from_username: string | null;
   message_text: string | null;
   business_connection_id: string | null;
-  created_at: string;
+  received_at: string; // ← было created_at
 }
 
 interface DialogGroup {
@@ -30,8 +30,8 @@ async function fetchTodayMessages(): Promise<Message[]> {
 
   const params = new URLSearchParams({
     select: '*',
-    created_at: `gte.${todayStart.toISOString()}`,
-    order: 'created_at.asc',
+    received_at: `gte.${todayStart.toISOString()}`, // ← было created_at
+    order: 'received_at.asc', // ← было created_at.asc
   });
 
   const response = await fetch(
