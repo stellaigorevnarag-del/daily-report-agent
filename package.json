@@ -1,22 +1,22 @@
 {
   "name": "daily-report-agent",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@types/node": "^25.5.2",
-    "@types/react": "^19.2.14",
-    "next": "^16.2.2",
-    "openai": "^6.33.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "typescript": "^6.0.2"
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "openai": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest"
   }
 }
