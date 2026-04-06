@@ -7,7 +7,7 @@ interface Message {
   from_username: string | null;
   message_text: string | null;
   business_connection_id: string | null;
-  received_at: string; // ← было created_at
+  received_at: string;
 }
 
 interface DialogGroup {
@@ -30,15 +30,20 @@ async function fetchTodayMessages(): Promise<Message[]> {
 
   const params = new URLSearchParams({
     select: '*',
-    received_at: `gte.${todayStart.toISOString()}`, // ← было created_at
-    order: 'received_at.asc', // ← было created_at.asc
+    received_at: `gte.${todayStart.toISOString()}`,
+    order: 'received_at.asc',
   });
 
-const response = await client.chat.completions.create({
-    model: 'gpt-5.4-mini',
-    messages: [{ role: 'user', content: buildPrompt(dialogs) }],
-    max_completion_tokens: 2000, // ← было max_tokens
-  });
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/messages?${params.toString()}`,
+    {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
   if (!response.ok) {
     const error = await response.text();
@@ -110,7 +115,7 @@ export async function analyzeMessages(): Promise<string | null> {
   const response = await client.chat.completions.create({
     model: 'gpt-5.4-mini',
     messages: [{ role: 'user', content: buildPrompt(dialogs) }],
-    max_tokens: 2000,
+    max_completion_tokens: 2000,
   });
 
   return response.choices[0].message.content;
